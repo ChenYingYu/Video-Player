@@ -8,6 +8,7 @@
 
 import UIKit
 import AVKit
+import AVFoundation
 
 class ViewController: UIViewController {
 
@@ -64,6 +65,12 @@ class ViewController: UIViewController {
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = videoView.bounds
         videoView.layer.addSublayer(playerLayer)
+        
+        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
+            let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)
+            self.slider.setValue(Float(progress), animated: false)
+        }
     }
 }
 
