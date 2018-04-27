@@ -17,6 +17,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchButtonStyle: UIButton!
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var videoView: UIView!
+    @IBOutlet weak var currentTimeLabel: UILabel!
+    @IBOutlet weak var totalDurationLabel: UILabel!
     
     var player = AVPlayer()
     
@@ -70,6 +72,21 @@ class ViewController: UIViewController {
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
             let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)
             self.slider.setValue(Float(progress), animated: false)
+            // Time Format
+            let currentTime = CMTimeGetSeconds(self.player.currentTime())
+            let currentMin = String(format: "%.0f", currentTime)
+            let currentMinute = Int(currentMin)! / 60
+            let currentSec = String(format: "%.0f",  currentTime)
+            let currentSecond = Int(currentSec)! % 60
+            let total = String(format: "%.0f",  CMTimeGetSeconds(self.player.currentItem!.duration))
+            let totalMin = Int(total)! / 60
+            let totalSec = Int(total)! % 60
+            let totalMinute = totalMin < 10 ? "0\(totalMin)" : "\(totalMin)"
+            let totalSecond = totalSec < 10 ? "0\(totalSec)" : "\(totalSec)"
+            self.totalDurationLabel.text = totalMinute + ":" + totalSecond
+            let minute = currentMinute < 10 ? "0\(currentMinute)" : "\(currentMinute)"
+            let second = currentSecond < 10 ? "0\(currentSecond)" : "\(currentSecond)"
+            self.currentTimeLabel.text = minute + ":" + second
         }
     }
 }
