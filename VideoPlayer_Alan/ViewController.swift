@@ -22,6 +22,10 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var backwardButton: UIButton!
+    @IBOutlet weak var forwardButton: UIButton!
+    @IBOutlet weak var fullScreenButton: UIButton!
+    
     @IBOutlet weak var placeHolderLabel: UILabel!
     
     var player = AVPlayer()
@@ -77,7 +81,12 @@ class ViewController: UIViewController {
         searchButtonStyle.layer.cornerRadius = 4.0
         slider.minimumTrackTintColor = UIColor.purple
         slider.value = 0.0
-        
+        playButton.tintColor = .black
+        muteButton.tintColor = .black
+        backwardButton.tintColor = .black
+        forwardButton.tintColor = .black
+        fullScreenButton.tintColor = .black
+
         // AVPlayer
         
         let videoURL = URL(string: "https:s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
@@ -112,14 +121,25 @@ class ViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             print("landscape")
-//            videoView.frame = UIScreen.main.bounds
-//            playerLayer.frame = videoView.bounds
-            
-//            playerLayer.goFullscreen()
-//            let window = UIWindow(frame: UIScreen.main.bounds)
-//            playerLayer.frame = window.bounds
+            videoView.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+            playerLayer.frame = videoView.bounds
+            videoView.layer.addSublayer(playerLayer)
+            playButton.tintColor = .white
+            muteButton.tintColor = .white
+            backwardButton.tintColor = .white
+            forwardButton.tintColor = .white
+            fullScreenButton.tintColor = .white
+            currentTimeLabel.textColor = .white
+            totalDurationLabel.textColor = .white
         } else {
             print("portarit")
+            playButton.tintColor = .black
+            muteButton.tintColor = .black
+            backwardButton.tintColor = .black
+            forwardButton.tintColor = .black
+            fullScreenButton.tintColor = .black
+            currentTimeLabel.textColor = .black
+            totalDurationLabel.textColor = .black
         }
     }
 }

@@ -269,7 +269,10 @@
                         </variation>
                     </view>
                     <connections>
+                        <outlet property="backwardButton" destination="CYx-DD-bTT" id="2S2-7a-O9T"/>
                         <outlet property="currentTimeLabel" destination="Dwn-mp-7jU" id="jFn-jp-Nox"/>
+                        <outlet property="forwardButton" destination="5UP-Dt-VYx" id="Y0K-xf-3jH"/>
+                        <outlet property="fullScreenButton" destination="elo-jD-2pk" id="FJ3-VF-HkP"/>
                         <outlet property="muteButton" destination="8YA-3d-V6j" id="kTu-PM-00y"/>
                         <outlet property="navigationBar" destination="9UP-n5-5rb" id="25x-KE-iwM"/>
                         <outlet property="placeHolderLabel" destination="kYE-A8-da7" id="cTZ-rK-ZU8"/>
