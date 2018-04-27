@@ -59,7 +59,7 @@
                                 </variation>
                                 <variation key="heightClass=compact-widthClass=regular">
                                     <mask key="subviews">
-                                        <exclude reference="kYE-A8-da7"/>
+                                        <include reference="kYE-A8-da7"/>
                                         <exclude reference="2zM-lx-6j0"/>
                                     </mask>
                                     <mask key="constraints">
@@ -100,6 +100,9 @@
                                 <state key="normal" title="搜尋">
                                     <color key="titleColor" red="0.14117647059999999" green="0.14117647059999999" blue="0.14117647059999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="setupPlayer:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8EU-RH-5ny"/>
+                                </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JN5-uG-vtZ">
                                 <rect key="frame" x="68" y="622" width="278" height="31"/>
@@ -283,6 +286,7 @@
                         <outlet property="playButton" destination="Onp-k3-Yq6" id="zm5-vN-wXA"/>
                         <outlet property="searchButtonStyle" destination="SAl-Rv-ebS" id="oxv-Ea-rLm"/>
                         <outlet property="slider" destination="JN5-uG-vtZ" id="ahU-aP-eXX"/>
+                        <outlet property="textField" destination="c4v-fC-k0k" id="thf-a2-axa"/>
                         <outlet property="totalDurationLabel" destination="xjD-R2-e22" id="Kag-I6-w2Y"/>
                         <outlet property="videoView" destination="VDc-j9-lMd" id="Hj2-AW-kN0"/>
                     </connections>

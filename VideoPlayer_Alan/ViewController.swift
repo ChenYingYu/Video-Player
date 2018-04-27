@@ -19,6 +19,44 @@ class ViewController: UIViewController {
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var totalDurationLabel: UILabel!
+    @IBOutlet weak var textField: UITextField!
+    
+    @IBAction func setupPlayer(_ sender: UIButton) {
+        guard let urlString = textField.text else {
+            return
+        }
+        // AVPlayer
+        
+        let videoURL = URL(string: urlString)
+        player = AVPlayer(url: videoURL!)
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = videoView.bounds
+        videoView.layer.addSublayer(playerLayer)
+        placeHolderLabel.isHidden = true
+        
+        
+        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
+            let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)
+            self.slider.setValue(Float(progress), animated: false)
+            // Time Format
+            let currentTime = CMTimeGetSeconds(self.player.currentTime())
+            let currentMin = String(format: "%.0f", currentTime)
+            let currentMinute = Int(currentMin)! / 60
+            let currentSec = String(format: "%.0f",  currentTime)
+            let currentSecond = Int(currentSec)! % 60
+            let total = String(format: "%.0f",  CMTimeGetSeconds(self.player.currentItem!.duration))
+            let totalMin = Int(total)! / 60
+            let totalSec = Int(total)! % 60
+            let totalMinute = totalMin < 10 ? "0\(totalMin)" : "\(totalMin)"
+            let totalSecond = totalSec < 10 ? "0\(totalSec)" : "\(totalSec)"
+            self.totalDurationLabel.text = totalMinute + ":" + totalSecond
+            let minute = currentMinute < 10 ? "0\(currentMinute)" : "\(currentMinute)"
+            let second = currentSecond < 10 ? "0\(currentSecond)" : "\(currentSecond)"
+            self.currentTimeLabel.text = minute + ":" + second
+        }
+    }
+    
     
     @IBOutlet weak var playButton: UIButton!
     @IBOutlet weak var muteButton: UIButton!
@@ -97,43 +135,13 @@ class ViewController: UIViewController {
         backwardButton.tintColor = .black
         forwardButton.tintColor = .black
         fullScreenButton.tintColor = .black
-
-        // AVPlayer
-        
-        let videoURL = URL(string: "https:s3-ap-northeast-1.amazonaws.com/mid-exam/Video/taeyeon.mp4")
-        player = AVPlayer(url: videoURL!)
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = videoView.bounds
-        videoView.layer.addSublayer(playerLayer)
-        placeHolderLabel.isHidden = true
-        
-        
-        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
-        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
-            let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)
-            self.slider.setValue(Float(progress), animated: false)
-            // Time Format
-            let currentTime = CMTimeGetSeconds(self.player.currentTime())
-            let currentMin = String(format: "%.0f", currentTime)
-            let currentMinute = Int(currentMin)! / 60
-            let currentSec = String(format: "%.0f",  currentTime)
-            let currentSecond = Int(currentSec)! % 60
-            let total = String(format: "%.0f",  CMTimeGetSeconds(self.player.currentItem!.duration))
-            let totalMin = Int(total)! / 60
-            let totalSec = Int(total)! % 60
-            let totalMinute = totalMin < 10 ? "0\(totalMin)" : "\(totalMin)"
-            let totalSecond = totalSec < 10 ? "0\(totalSec)" : "\(totalSec)"
-            self.totalDurationLabel.text = totalMinute + ":" + totalSecond
-            let minute = currentMinute < 10 ? "0\(currentMinute)" : "\(currentMinute)"
-            let second = currentSecond < 10 ? "0\(currentSecond)" : "\(currentSecond)"
-            self.currentTimeLabel.text = minute + ":" + second
-        }
+//        placeHolderLabel.textColor = .black
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             print("landscape")
             videoView.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
-            videoView.backgroundColor = .gray
+            videoView.backgroundColor = .black
             playerLayer.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
 //            videoView.layer.addSublayer(playerLayer)
             playButton.tintColor = .white
@@ -143,6 +151,7 @@ class ViewController: UIViewController {
             fullScreenButton.tintColor = .white
             currentTimeLabel.textColor = .white
             totalDurationLabel.textColor = .white
+            fullScreenButton.isSelected = true
         } else {
             print("portarit")
             playButton.tintColor = .black
@@ -152,6 +161,8 @@ class ViewController: UIViewController {
             fullScreenButton.tintColor = .black
             currentTimeLabel.textColor = .black
             totalDurationLabel.textColor = .black
+            videoView.backgroundColor = .white
+            fullScreenButton.isSelected = false
         }
     }
 }
