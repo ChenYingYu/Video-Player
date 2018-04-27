@@ -25,7 +25,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var backwardButton: UIButton!
     @IBOutlet weak var forwardButton: UIButton!
     @IBOutlet weak var fullScreenButton: UIButton!
-    
+    @IBAction func fullScreen(_ sender: UIButton) {
+        if fullScreenButton.isSelected {
+            fullScreenButton.isSelected = false
+            let value = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+        } else {
+            playerLayer.goFullscreen()
+            let value = UIInterfaceOrientation.landscapeRight.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+            fullScreenButton.isSelected = true
+        }
+    }
     @IBOutlet weak var placeHolderLabel: UILabel!
     
     var player = AVPlayer()
@@ -122,8 +133,9 @@ class ViewController: UIViewController {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             print("landscape")
             videoView.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
-            playerLayer.frame = videoView.bounds
-            videoView.layer.addSublayer(playerLayer)
+            videoView.backgroundColor = .gray
+            playerLayer.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
+//            videoView.layer.addSublayer(playerLayer)
             playButton.tintColor = .white
             muteButton.tintColor = .white
             backwardButton.tintColor = .white
