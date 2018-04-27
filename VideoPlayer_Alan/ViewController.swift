@@ -20,13 +20,20 @@ class ViewController: UIViewController {
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var totalDurationLabel: UILabel!
     
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var placeHolderLabel: UILabel!
+    
     var player = AVPlayer()
+    var playerLayer = AVPlayerLayer()
     
     @IBAction func playOrPause(_ sender: UIButton) {
         if player.rate > 0.0 {
             player.pause()
+            playButton.isSelected = false
         } else {
             player.play()
+            playButton.isSelected = true
         }
     }
     let duration = CMTime(seconds: 10.0, preferredTimescale: CMTimeScale(1.0))
@@ -41,8 +48,19 @@ class ViewController: UIViewController {
     @IBAction func mute(_ sender: UIButton) {
         if player.isMuted {
             player.isMuted = false
+            muteButton.isSelected = false
         } else {
             player.isMuted = true
+            muteButton.isSelected = true
+        }
+    }
+    
+    @IBAction func updateTime(_ sender: UISlider) {
+        if let duration = player.currentItem?.duration {
+            let total = CMTimeGetSeconds(duration)
+            let val = Float64(sender.value) * total
+            let time = CMTime(value: Int64(val), timescale: 1)
+            player.seek(to: time)
         }
     }
     
@@ -67,6 +85,8 @@ class ViewController: UIViewController {
         let playerLayer = AVPlayerLayer(player: player)
         playerLayer.frame = videoView.bounds
         videoView.layer.addSublayer(playerLayer)
+        placeHolderLabel.isHidden = true
+        
         
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
@@ -89,5 +109,29 @@ class ViewController: UIViewController {
             self.currentTimeLabel.text = minute + ":" + second
         }
     }
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
+            print("landscape")
+//            videoView.frame = UIScreen.main.bounds
+//            playerLayer.frame = videoView.bounds
+            
+//            playerLayer.goFullscreen()
+//            let window = UIWindow(frame: UIScreen.main.bounds)
+//            playerLayer.frame = window.bounds
+        } else {
+            print("portarit")
+        }
+    }
 }
 
+extension AVPlayerLayer {
+    func goFullscreen() {
+        UIView.animate(withDuration: 0.15) {
+//            self.setAffineTransform(CGAffineTransform(rotationAngle: 90.0))
+           
+            self.frame = UIScreen.main.bounds
+//            self.videoGravity = AVLayerVideoGravity(rawValue: kCAGravityResizeAspectFill)
+            self.setNeedsDisplay()
+        }
+    }
+}
