@@ -35,6 +35,13 @@ class ViewController: UIViewController {
         let time = player.currentTime() - duration
         player.seek(to: time)
     }
+    @IBAction func mute(_ sender: UIButton) {
+        if player.isMuted {
+            player.isMuted = false
+        } else {
+            player.isMuted = true
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
