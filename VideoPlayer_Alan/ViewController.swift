@@ -10,16 +10,32 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    @IBOutlet weak var navigationBar: UINavigationBar!
+    
+    @IBOutlet weak var searchButtonStyle: UIButton!
+    @IBOutlet weak var slider: UISlider!
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
+        // UI Component
+        navigationBar.isTranslucent = false
+        let statusBarView = UIView(frame: UIApplication.shared.statusBarFrame)
+        statusBarView.backgroundColor = navigationBar.barTintColor
+        view.addSubview(statusBarView)
+        searchButtonStyle.layer.borderColor = UIColor.lightGray.cgColor
+        searchButtonStyle.layer.borderWidth = 1.0
+        searchButtonStyle.layer.cornerRadius = 4.0
+        slider.minimumTrackTintColor = UIColor.purple
+        slider.value = 0.0
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-
 }
+
+//extension UIApplication {
+//    var statusBarViewe: UIView? {
+//        return value(forKey: "statusBar") as? UIView
+//    }
+//}
 
