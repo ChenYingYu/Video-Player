@@ -12,6 +12,7 @@ import AVFoundation
 
 class PlayerViewController: UIViewController {
 
+    // Test for git rebase
     @IBOutlet weak var navigationBar: UINavigationBar!
     
     @IBOutlet weak var searchButtonStyle: UIButton!
