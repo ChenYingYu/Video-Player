@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 import AVFoundation
 
-class ViewController: UIViewController {
+class PlayerViewController: UIViewController {
 
     @IBOutlet weak var navigationBar: UINavigationBar!
     
@@ -33,8 +33,7 @@ class ViewController: UIViewController {
         playerLayer.frame = videoView.bounds
         videoView.layer.addSublayer(playerLayer)
         placeHolderLabel.isHidden = true
-        
-        
+
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
             let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)

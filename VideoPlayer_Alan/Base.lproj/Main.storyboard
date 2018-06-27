@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina5_5" orientation="portrait">
+    <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -11,19 +11,19 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Player View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="VideoPlayer_Alan" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="PlayerViewController" customModule="VideoPlayer_Alan" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VDc-j9-lMd">
-                                <rect key="frame" x="0.0" y="251.66666666666669" width="414" height="232.66666666666669"/>
+                                <rect key="frame" x="0.0" y="228" width="375" height="211"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="目前尚無影片可播放" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kYE-A8-da7">
-                                        <rect key="frame" x="129" y="106.00000000000003" width="156" height="21"/>
+                                        <rect key="frame" x="109.5" y="95" width="156" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -72,7 +72,7 @@
                                 </variation>
                             </view>
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9UP-n5-5rb">
-                                <rect key="frame" x="0.0" y="20" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <color key="tintColor" red="0.24705882352941178" green="0.31764705882352939" blue="0.70980392156862748" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="barTintColor" red="0.2470588235" green="0.31764705879999999" blue="0.70980392160000005" alpha="1" colorSpace="calibratedRGB"/>
                                 <textAttributes key="titleTextAttributes">
@@ -81,9 +81,11 @@
                                 <items>
                                     <navigationItem title="Video Player" id="Esn-o1-jxn"/>
                                 </items>
+                                <variation key="heightClass=compact-widthClass=compact" hidden="YES"/>
+                                <variation key="heightClass=compact-widthClass=regular" hidden="YES"/>
                             </navigationBar>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="請輸入欲播放影片網址" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c4v-fC-k0k">
-                                <rect key="frame" x="10" y="79" width="304" height="30"/>
+                                <rect key="frame" x="10" y="79" width="265" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="O8w-Da-I0H"/>
                                 </constraints>
@@ -92,7 +94,7 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SAl-Rv-ebS">
-                                <rect key="frame" x="324" y="79" width="80" height="30"/>
+                                <rect key="frame" x="285" y="79" width="80" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="80" id="Ygd-J5-mbm"/>
                                     <constraint firstAttribute="height" constant="30" id="pe7-F0-21F"/>
@@ -105,13 +107,13 @@
                                 </connections>
                             </button>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="JN5-uG-vtZ">
-                                <rect key="frame" x="68" y="622" width="278" height="31"/>
+                                <rect key="frame" x="68" y="553" width="239" height="31"/>
                                 <connections>
                                     <action selector="updateTime:" destination="BYZ-38-t0r" eventType="valueChanged" id="fja-s5-Uky"/>
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Onp-k3-Yq6">
-                                <rect key="frame" x="195" y="682" width="24" height="24"/>
+                                <rect key="frame" x="175.5" y="613" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="0vX-dm-N7q"/>
                                     <constraint firstAttribute="height" constant="24" id="63M-Ob-esE"/>
@@ -123,7 +125,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CYx-DD-bTT">
-                                <rect key="frame" x="131" y="682" width="24" height="24"/>
+                                <rect key="frame" x="111.5" y="613" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="Oqg-AE-Z6V"/>
                                     <constraint firstAttribute="height" constant="24" id="VcA-J4-ErB"/>
@@ -134,7 +136,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5UP-Dt-VYx">
-                                <rect key="frame" x="259" y="682" width="24" height="24"/>
+                                <rect key="frame" x="239.5" y="613" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="Dhs-iu-4qc"/>
                                     <constraint firstAttribute="width" constant="24" id="dis-6w-gp2"/>
@@ -145,7 +147,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="elo-jD-2pk">
-                                <rect key="frame" x="323" y="682" width="24" height="24"/>
+                                <rect key="frame" x="303.5" y="613" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="FC0-yL-aXz"/>
                                     <constraint firstAttribute="width" constant="24" id="PdL-nf-DoO"/>
@@ -157,7 +159,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8YA-3d-V6j">
-                                <rect key="frame" x="67" y="682" width="24" height="24"/>
+                                <rect key="frame" x="47.5" y="613" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="24" id="7zq-Fy-Zut"/>
                                     <constraint firstAttribute="width" constant="24" id="uze-6O-eXr"/>
@@ -169,7 +171,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dwn-mp-7jU">
-                                <rect key="frame" x="10" y="622" width="50" height="30"/>
+                                <rect key="frame" x="10" y="553" width="50" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="eR6-3U-jee"/>
                                     <constraint firstAttribute="height" constant="30" id="zca-Sm-mIW"/>
@@ -179,7 +181,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xjD-R2-e22">
-                                <rect key="frame" x="354" y="622" width="50" height="30"/>
+                                <rect key="frame" x="315" y="553" width="50" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="mLR-ty-3dJ"/>
                                     <constraint firstAttribute="height" constant="30" id="nMu-4k-fXu"/>
@@ -238,7 +240,9 @@
                                 <variation key="heightClass=compact-widthClass=regular" constant="10"/>
                             </constraint>
                             <constraint firstItem="9UP-n5-5rb" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="kG7-9A-unK"/>
-                            <constraint firstItem="9UP-n5-5rb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="lxG-MW-jyo"/>
+                            <constraint firstItem="9UP-n5-5rb" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="20" id="lxG-MW-jyo">
+                                <variation key="heightClass=regular-widthClass=compact" constant="20"/>
+                            </constraint>
                             <constraint firstItem="VDc-j9-lMd" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="nRK-Dx-XEG"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Onp-k3-Yq6" secondAttribute="bottom" constant="30" id="ohK-Jj-zlJ">
                                 <variation key="heightClass=compact-widthClass=regular" constant="10"/>
@@ -297,13 +301,13 @@
         </scene>
     </scenes>
     <resources>
-        <image name="fast_forward" width="21" height="21"/>
-        <image name="full_screen_button" width="21" height="21"/>
-        <image name="full_screen_exit" width="21" height="21"/>
-        <image name="play_button" width="21" height="21"/>
-        <image name="rewind" width="21" height="21"/>
-        <image name="stop" width="21" height="21"/>
-        <image name="volume_off" width="21" height="21"/>
-        <image name="volume_up" width="21" height="21"/>
+        <image name="fast_forward" width="12" height="12"/>
+        <image name="full_screen_button" width="12" height="12"/>
+        <image name="full_screen_exit" width="12" height="12"/>
+        <image name="play_button" width="12" height="12"/>
+        <image name="rewind" width="12" height="12"/>
+        <image name="stop" width="12" height="12"/>
+        <image name="volume_off" width="12" height="12"/>
+        <image name="volume_up" width="12" height="12"/>
     </resources>
 </document>
