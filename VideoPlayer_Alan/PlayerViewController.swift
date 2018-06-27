@@ -12,7 +12,7 @@ import AVFoundation
 
 class PlayerViewController: UIViewController {
 
-    // Test for git cherry-pick
+    // Test for gitignore existed file
     @IBOutlet weak var navigationBar: UINavigationBar!
     
     @IBOutlet weak var searchButtonStyle: UIButton!
