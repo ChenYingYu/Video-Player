@@ -43,7 +43,7 @@ class PlayerViewController: UIViewController {
         }
     }
     
-    @IBAction func playOrPause(_ sender: UIButton) {
+    @IBAction func playButtonPressed(_ sender: UIButton) {
         if player.rate > 0.0 {
             player.pause()
             playButton.isSelected = false
@@ -53,17 +53,17 @@ class PlayerViewController: UIViewController {
         }
     }
     
-    @IBAction func fastForward(_ sender: UIButton) {
+    @IBAction func fastForwardButtonPressed(_ sender: UIButton) {
         let time = player.currentTime() + duration
         player.seek(to: time)
     }
     
-    @IBAction func fastBackward(_ sender: UIButton) {
+    @IBAction func fastBackwardButtonPressed(_ sender: UIButton) {
         let time = player.currentTime() - duration
         player.seek(to: time)
     }
     
-    @IBAction func mute(_ sender: UIButton) {
+    @IBAction func muteButtonPressed(_ sender: UIButton) {
         if player.isMuted {
             player.isMuted = false
             muteButton.isSelected = false
@@ -167,26 +167,13 @@ class PlayerViewController: UIViewController {
                 return
             }
             
-            let currentMinute = currentTimeIntValue / 60
-            let currentSecond = currentTimeIntValue % 60
-            let totalMinute = totalTimeIntValue / 60
-            let totalSecond = totalTimeIntValue % 60
-            guard let currentMinuteString = self?.stringWithTime(currentMinute),
-                let currentSecondString = self?.stringWithTime(currentSecond) else {
-                    return
-            }
-            guard let totalMinuteString = self?.stringWithTime(totalMinute),
-                let totalSecondString = self?.stringWithTime(totalSecond) else {
-                    return
-            }
+            let currentMinuteString = currentTimeIntValue.minute().twoDigitString()
+            let currentSecondString = currentTimeIntValue.second().twoDigitString()
+            let totalMinuteString = totalTimeIntValue.minute().twoDigitString()
+            let totalSecondString = totalTimeIntValue.second().twoDigitString()
             self?.currentTimeLabel.text = currentMinuteString + ":" + currentSecondString
             self?.totalDurationLabel.text = totalMinuteString + ":" + totalSecondString
         }
-    }
-    
-    func stringWithTime(_ time: Int) -> String {
-        let string = time < 10 ? "0\(time)" : "\(time)"
-        return string
     }
 }
 
