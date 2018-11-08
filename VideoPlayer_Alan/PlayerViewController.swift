@@ -86,41 +86,6 @@ class PlayerViewController: UIViewController {
     var playerLayer = AVPlayerLayer()
     let duration = CMTime(seconds: 10.0, preferredTimescale: CMTimeScale(1.0))
     
-    func setUpPlayer() {
-        guard let urlString = textField.text else {
-            return
-        }
-        // AVPlayer
-        
-        let videoURL = URL(string: urlString)
-        player = AVPlayer(url: videoURL!)
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = videoView.bounds
-        videoView.layer.addSublayer(playerLayer)
-        placeHolderLabel.isHidden = true
-        
-        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
-        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
-            let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)
-            self.slider.setValue(Float(progress), animated: false)
-            // Time Format
-            let currentTime = CMTimeGetSeconds(self.player.currentTime())
-            let currentMin = String(format: "%.0f", currentTime)
-            let currentMinute = Int(currentMin)! / 60
-            let currentSec = String(format: "%.0f",  currentTime)
-            let currentSecond = Int(currentSec)! % 60
-            let total = String(format: "%.0f",  CMTimeGetSeconds(self.player.currentItem!.duration))
-            let totalMin = Int(total)! / 60
-            let totalSec = Int(total)! % 60
-            let totalMinute = totalMin < 10 ? "0\(totalMin)" : "\(totalMin)"
-            let totalSecond = totalSec < 10 ? "0\(totalSec)" : "\(totalSec)"
-            self.totalDurationLabel.text = totalMinute + ":" + totalSecond
-            let minute = currentMinute < 10 ? "0\(currentMinute)" : "\(currentMinute)"
-            let second = currentSecond < 10 ? "0\(currentSecond)" : "\(currentSecond)"
-            self.currentTimeLabel.text = minute + ":" + second
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -169,6 +134,59 @@ class PlayerViewController: UIViewController {
             videoView.backgroundColor = .white
             fullScreenButton.isSelected = false
         }
+    }
+    
+    func setUpPlayer() {
+        
+        guard let urlString = textField.text, let videoURL = URL(string: urlString) else {
+            return
+        }
+        player = AVPlayer(url: videoURL)
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = videoView.bounds
+        videoView.layer.addSublayer(playerLayer)
+        placeHolderLabel.isHidden = true
+        
+        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
+        player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
+            guard let currentItem = self?.player.currentItem else {
+                return
+            }
+            guard let currentTime = self?.player.currentTime() else {
+                return
+            }
+            let progress = CMTimeGetSeconds(currentTime) / CMTimeGetSeconds(currentItem.duration)
+            self?.slider.setValue(Float(progress), animated: false)
+            // Time Format
+            let currentTimeFloat = CMTimeGetSeconds(currentTime)
+            
+            guard let currentTimeIntValue = Int(String(format: "%.0f", currentTimeFloat)) else {
+                return
+            }
+            guard let totalTimeIntValue = Int(String(format: "%.0f",  CMTimeGetSeconds(currentItem.duration))) else {
+                return
+            }
+            
+            let currentMinute = currentTimeIntValue / 60
+            let currentSecond = currentTimeIntValue % 60
+            let totalMinute = totalTimeIntValue / 60
+            let totalSecond = totalTimeIntValue % 60
+            guard let currentMinuteString = self?.stringWithTime(currentMinute),
+                let currentSecondString = self?.stringWithTime(currentSecond) else {
+                    return
+            }
+            guard let totalMinuteString = self?.stringWithTime(totalMinute),
+                let totalSecondString = self?.stringWithTime(totalSecond) else {
+                    return
+            }
+            self?.currentTimeLabel.text = currentMinuteString + ":" + currentSecondString
+            self?.totalDurationLabel.text = totalMinuteString + ":" + totalSecondString
+        }
+    }
+    
+    func stringWithTime(_ time: Int) -> String {
+        let string = time < 10 ? "0\(time)" : "\(time)"
+        return string
     }
 }
 
