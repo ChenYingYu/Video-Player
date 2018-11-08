@@ -11,18 +11,82 @@ import AVKit
 import AVFoundation
 
 class PlayerViewController: UIViewController {
-
-    // Test for gitignore existed file
-    @IBOutlet weak var navigationBar: UINavigationBar!
     
+    @IBOutlet weak var navigationBar: UINavigationBar!
     @IBOutlet weak var searchButtonStyle: UIButton!
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var videoView: UIView!
     @IBOutlet weak var currentTimeLabel: UILabel!
     @IBOutlet weak var totalDurationLabel: UILabel!
     @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var playButton: UIButton!
+    @IBOutlet weak var muteButton: UIButton!
+    @IBOutlet weak var backwardButton: UIButton!
+    @IBOutlet weak var forwardButton: UIButton!
+    @IBOutlet weak var fullScreenButton: UIButton!
+    @IBOutlet weak var placeHolderLabel: UILabel!
     
-    @IBAction func setupPlayer(_ sender: UIButton) {
+    @IBAction func searchButtonPressed(_ sender: UIButton) {
+        setUpPlayer()
+    }
+    
+    @IBAction func fullScreenButtonPressed(_ sender: UIButton) {
+        if fullScreenButton.isSelected {
+            fullScreenButton.isSelected = false
+            let value = UIInterfaceOrientation.portrait.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+        } else {
+            playerLayer.goFullscreen()
+            let value = UIInterfaceOrientation.landscapeRight.rawValue
+            UIDevice.current.setValue(value, forKey: "orientation")
+            fullScreenButton.isSelected = true
+        }
+    }
+    
+    @IBAction func playOrPause(_ sender: UIButton) {
+        if player.rate > 0.0 {
+            player.pause()
+            playButton.isSelected = false
+        } else {
+            player.play()
+            playButton.isSelected = true
+        }
+    }
+    
+    @IBAction func fastForward(_ sender: UIButton) {
+        let time = player.currentTime() + duration
+        player.seek(to: time)
+    }
+    
+    @IBAction func fastBackward(_ sender: UIButton) {
+        let time = player.currentTime() - duration
+        player.seek(to: time)
+    }
+    
+    @IBAction func mute(_ sender: UIButton) {
+        if player.isMuted {
+            player.isMuted = false
+            muteButton.isSelected = false
+        } else {
+            player.isMuted = true
+            muteButton.isSelected = true
+        }
+    }
+    
+    @IBAction func updateTime(_ sender: UISlider) {
+        if let duration = player.currentItem?.duration {
+            let total = CMTimeGetSeconds(duration)
+            let val = Float64(sender.value) * total
+            let time = CMTime(value: Int64(val), timescale: 1)
+            player.seek(to: time)
+        }
+    }
+    
+    var player = AVPlayer()
+    var playerLayer = AVPlayerLayer()
+    let duration = CMTime(seconds: 10.0, preferredTimescale: CMTimeScale(1.0))
+    
+    func setUpPlayer() {
         guard let urlString = textField.text else {
             return
         }
@@ -34,7 +98,7 @@ class PlayerViewController: UIViewController {
         playerLayer.frame = videoView.bounds
         videoView.layer.addSublayer(playerLayer)
         placeHolderLabel.isHidden = true
-
+        
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(1000.0))
         player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
             let progress = CMTimeGetSeconds(self.player.currentTime()) / CMTimeGetSeconds(self.player.currentItem!.duration)
@@ -57,66 +121,6 @@ class PlayerViewController: UIViewController {
         }
     }
     
-    
-    @IBOutlet weak var playButton: UIButton!
-    @IBOutlet weak var muteButton: UIButton!
-    @IBOutlet weak var backwardButton: UIButton!
-    @IBOutlet weak var forwardButton: UIButton!
-    @IBOutlet weak var fullScreenButton: UIButton!
-    @IBAction func fullScreen(_ sender: UIButton) {
-        if fullScreenButton.isSelected {
-            fullScreenButton.isSelected = false
-            let value = UIInterfaceOrientation.portrait.rawValue
-            UIDevice.current.setValue(value, forKey: "orientation")
-        } else {
-            playerLayer.goFullscreen()
-            let value = UIInterfaceOrientation.landscapeRight.rawValue
-            UIDevice.current.setValue(value, forKey: "orientation")
-            fullScreenButton.isSelected = true
-        }
-    }
-    @IBOutlet weak var placeHolderLabel: UILabel!
-    
-    var player = AVPlayer()
-    var playerLayer = AVPlayerLayer()
-    
-    @IBAction func playOrPause(_ sender: UIButton) {
-        if player.rate > 0.0 {
-            player.pause()
-            playButton.isSelected = false
-        } else {
-            player.play()
-            playButton.isSelected = true
-        }
-    }
-    let duration = CMTime(seconds: 10.0, preferredTimescale: CMTimeScale(1.0))
-    @IBAction func fastForward(_ sender: UIButton) {
-        let time = player.currentTime() + duration
-        player.seek(to: time)
-    }
-    @IBAction func fastBackward(_ sender: UIButton) {
-        let time = player.currentTime() - duration
-        player.seek(to: time)
-    }
-    @IBAction func mute(_ sender: UIButton) {
-        if player.isMuted {
-            player.isMuted = false
-            muteButton.isSelected = false
-        } else {
-            player.isMuted = true
-            muteButton.isSelected = true
-        }
-    }
-    
-    @IBAction func updateTime(_ sender: UISlider) {
-        if let duration = player.currentItem?.duration {
-            let total = CMTimeGetSeconds(duration)
-            let val = Float64(sender.value) * total
-            let time = CMTime(value: Int64(val), timescale: 1)
-            player.seek(to: time)
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -135,15 +139,16 @@ class PlayerViewController: UIViewController {
         backwardButton.tintColor = .black
         forwardButton.tintColor = .black
         fullScreenButton.tintColor = .black
-//        placeHolderLabel.textColor = .black
+        //        placeHolderLabel.textColor = .black
     }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         if UIDeviceOrientationIsLandscape(UIDevice.current.orientation) {
             print("landscape")
             videoView.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
             videoView.backgroundColor = .black
             playerLayer.frame = CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.height, height: UIScreen.main.bounds.width)
-//            videoView.layer.addSublayer(playerLayer)
+            //            videoView.layer.addSublayer(playerLayer)
             playButton.tintColor = .white
             muteButton.tintColor = .white
             backwardButton.tintColor = .white
@@ -170,10 +175,10 @@ class PlayerViewController: UIViewController {
 extension AVPlayerLayer {
     func goFullscreen() {
         UIView.animate(withDuration: 0.15) {
-//            self.setAffineTransform(CGAffineTransform(rotationAngle: 90.0))
-           
+            //            self.setAffineTransform(CGAffineTransform(rotationAngle: 90.0))
+            
             self.frame = UIScreen.main.bounds
-//            self.videoGravity = AVLayerVideoGravity(rawValue: kCAGravityResizeAspectFill)
+            //            self.videoGravity = AVLayerVideoGravity(rawValue: kCAGravityResizeAspectFill)
             self.setNeedsDisplay()
         }
     }
